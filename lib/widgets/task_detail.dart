@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app_flutter/model/task_model.dart';
+import 'package:to_do_app_flutter/service/notification_manager.dart';
 import 'package:to_do_app_flutter/service/service.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/utils/icon_enum.dart';
@@ -173,17 +174,29 @@ class _TaskDetailState extends State<TaskDetail> {
                   child: MyButton(
                       title: 'Update',
                       onTap: () {
+                        //updated task
                         TaskModel updatedTask = TaskModel(
                           iconName: widget.task.iconName,
                           title: widget.task.title,
                           time: timeController.text,
                           date: dateController.text,
                           note: noteController.text,
-                          id: widget.task.id,
+                          id: MyService().idCreator(),
                         );
+                        // cancel current alarm
+                        NotificationHelper.unScheduleNotification(
+                            widget.task.id);
+                        // new alarm
+                        NotificationHelper.scheduleNotification(
+                            id: updatedTask.id,
+                            scheduledDateTime: MyService().stringToDateTime(
+                                dateController.text, timeController.text));
+                        //update task
                         context
                             .read<MyService>()
                             .updateTask(widget.index, updatedTask);
+
+                        Navigator.pop(context);
                       }),
                 )
               ],

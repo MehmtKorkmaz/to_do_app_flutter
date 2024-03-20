@@ -64,4 +64,15 @@ class MyService extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  DateTime stringToDateTime(String date, String time) {
+    DateTime dateTime = DateTime.parse('$date $time');
+    return dateTime;
+  }
+
+  int idCreator() {
+    int id = int.parse(DateFormat("Dmmss").format(DateTime.now()));
+
+    return id;
+  }
 }

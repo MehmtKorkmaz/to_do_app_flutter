@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app_flutter/model/task_model.dart';
@@ -184,8 +183,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                             time: timeController.text,
                             date: dateController.text,
                             note: noteController.text,
-                            id: int.parse(
-                                DateFormat("Dmmss").format(DateTime.now())));
+                            id: context.read<MyService>().idCreator());
                         context.read<MyService>().addNewTask(task);
 
                         NotificationHelper.scheduleNotification(
@@ -193,8 +191,10 @@ class _AddTaskViewState extends State<AddTaskView> {
                             title: titleController.text,
                             body: '',
                             payload: '',
-                            scheduledDateTime: DateTime.parse(
-                                '${dateController.text} ${timeController.text}'));
+                            scheduledDateTime: context
+                                .read<MyService>()
+                                .stringToDateTime(
+                                    dateController.text, timeController.text));
                         Navigator.pop(context);
                       }))
             ],

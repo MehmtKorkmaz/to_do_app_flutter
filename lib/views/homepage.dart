@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app_flutter/service/notification_manager.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/views/add_task_view.dart';
 import 'package:to_do_app_flutter/service/service.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                     style: context.general.textTheme.headlineMedium,
                   ),
                   Text(
-                    'MY TODO LIST',
+                    'MY TO-DO LIST',
                     style: context.general.textTheme.displaySmall,
                   ),
                 ],
@@ -75,6 +76,10 @@ class _HomePageState extends State<HomePage> {
                                       SlidableAction(
                                         onPressed: (_) {
                                           // deleteTaskFromList(index);
+
+                                          NotificationHelper
+                                              .unScheduleNotification(
+                                                  MyService.taskList[index].id);
                                           MyService.deleteTask(index);
                                         },
                                         backgroundColor:
