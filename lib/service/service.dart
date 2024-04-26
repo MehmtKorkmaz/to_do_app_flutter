@@ -5,19 +5,21 @@ import 'package:to_do_app_flutter/service/shared_manager.dart';
 import 'package:to_do_app_flutter/utils/shared_enums.dart';
 
 class MyService extends ChangeNotifier {
+  //tasklist contains all tasks
   List<TaskModel> taskList = [];
+  //todaylist takes tasks that has today's date from tasklist
   List<TaskModel> todayList = [];
 
   void initTodayList() async {
+    //if a task has today's date this method adds to todaylist
     for (TaskModel task in taskList) {
       if (DateFormat('yyyy-MM-dd').format(DateTime.now()) == task.date) {
-        if (todayList.contains(task)) {
-          return;
-        } else {
+        if (todayList.contains(task) == false) {
           todayList.add(task);
         }
       }
     }
+    //if a task has no today's date this method deletes from todaylist
     for (TaskModel task in todayList) {
       if (DateFormat('yyyy-MM-dd').format(DateTime.now()) != task.date) {
         todayList.remove(task);
@@ -25,6 +27,7 @@ class MyService extends ChangeNotifier {
     }
   }
 
+  //get the tasklist from database
   void initList() async {
     taskList = await SharedManager.getTaskList(SharedEnums.itemList);
     initTodayList();
@@ -35,7 +38,6 @@ class MyService extends ChangeNotifier {
     taskList.add(task);
 
     SharedManager.setStringList(SharedEnums.itemList, taskList);
-    initList();
     notifyListeners();
   }
 
@@ -48,8 +50,8 @@ class MyService extends ChangeNotifier {
   void deleteTask(int id) {
     taskList.removeWhere((task) => task.id == id);
     todayList.removeWhere((task) => task.id == id);
-    initTodayList();
     SharedManager.setStringList(SharedEnums.itemList, taskList);
+
     notifyListeners();
   }
 
