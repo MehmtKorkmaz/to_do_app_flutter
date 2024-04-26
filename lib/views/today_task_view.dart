@@ -31,7 +31,7 @@ class _TodayTasksViewState extends State<TodayTasksView> {
                     onPressed: (_) {
                       NotificationHelper.unScheduleNotification(
                           myService.todayList[index].id!);
-                      myService.deleteTask(myService.taskList[index].id!);
+                      myService.deleteTask(myService.taskList[index]);
                     },
                     backgroundColor: ColorConstants().bloodBurst,
                     icon: Icons.delete,

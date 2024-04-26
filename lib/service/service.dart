@@ -36,6 +36,9 @@ class MyService extends ChangeNotifier {
 
   void addNewTask(TaskModel task) {
     taskList.add(task);
+    if (DateFormat('yyyy-MM-dd').format(DateTime.now()) == task.date) {
+      todayList.add(task);
+    }
 
     SharedManager.setStringList(SharedEnums.itemList, taskList);
     notifyListeners();
@@ -47,9 +50,9 @@ class MyService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteTask(int id) {
-    taskList.removeWhere((task) => task.id == id);
-    todayList.removeWhere((task) => task.id == id);
+  void deleteTask(TaskModel task) {
+    taskList.remove(task);
+    todayList.remove(task);
     SharedManager.setStringList(SharedEnums.itemList, taskList);
 
     notifyListeners();

@@ -25,19 +25,21 @@ class _AllTaskViewState extends State<AllTaskView> {
             return Padding(
               padding: context.padding.horizontalLow,
               child: Slidable(
-                endActionPane:
-                    ActionPane(motion: const ScrollMotion(), children: [
-                  SlidableAction(
-                    onPressed: (_) {
-                      NotificationHelper.unScheduleNotification(
-                          myService.taskList[index].id!);
-                      myService.deleteTask(myService.taskList[index].id!);
-                    },
-                    backgroundColor: ColorConstants().bloodBurst,
-                    icon: Icons.delete,
-                    label: 'Delete',
-                  ),
-                ]),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (_) {
+                        NotificationHelper.unScheduleNotification(
+                            myService.taskList[index].id!);
+                        myService.deleteTask(myService.taskList[index]);
+                      },
+                      backgroundColor: ColorConstants().bloodBurst,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
+                ),
                 child: TaskCard(
                   task: myService.taskList[index],
                   taskDetail:
