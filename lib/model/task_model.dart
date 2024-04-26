@@ -1,18 +1,18 @@
 class TaskModel {
-  final String title;
-  final String time;
-  final String date;
-  final String note;
-  final String iconName;
-  final int id;
+  final String? title;
+  final String? time;
+  final String? date;
+  final String? note;
+  final String? iconName;
+  final int? id;
 
   TaskModel(
       {required this.iconName,
-      required this.title,
-      required this.time,
-      required this.date,
-      required this.note,
-      required this.id});
+      this.title,
+      this.time,
+      this.date,
+      this.note,
+      this.id});
 
   static Map<String, dynamic> toJson(TaskModel task) {
     Map<String, dynamic> taskAsMap = {

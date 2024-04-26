@@ -6,9 +6,28 @@ import 'package:to_do_app_flutter/utils/shared_enums.dart';
 
 class MyService extends ChangeNotifier {
   List<TaskModel> taskList = [];
+  List<TaskModel> todayList = [];
+
+  void initTodayList() async {
+    for (TaskModel task in taskList) {
+      if (DateFormat('yyyy-MM-dd').format(DateTime.now()) == task.date) {
+        if (todayList.contains(task)) {
+          return;
+        } else {
+          todayList.add(task);
+        }
+      }
+    }
+    for (TaskModel task in todayList) {
+      if (DateFormat('yyyy-MM-dd').format(DateTime.now()) != task.date) {
+        todayList.remove(task);
+      }
+    }
+  }
 
   void initList() async {
     taskList = await SharedManager.getTaskList(SharedEnums.itemList);
+    initTodayList();
     notifyListeners();
   }
 
@@ -23,12 +42,13 @@ class MyService extends ChangeNotifier {
   void updateTask(int index, TaskModel task) {
     taskList[index] = task;
     SharedManager.setStringList(SharedEnums.itemList, taskList);
-    initList();
     notifyListeners();
   }
 
-  void deleteTask(int index) {
-    taskList.removeAt(index);
+  void deleteTask(int id) {
+    taskList.removeWhere((task) => task.id == id);
+    todayList.removeWhere((task) => task.id == id);
+    initTodayList();
     SharedManager.setStringList(SharedEnums.itemList, taskList);
     notifyListeners();
   }

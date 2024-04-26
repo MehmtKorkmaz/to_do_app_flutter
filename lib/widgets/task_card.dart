@@ -48,7 +48,7 @@ class _TaskCardState extends State<TaskCard> {
           child: ListTile(
             dense: true,
             leading: Image.asset('assets/icons/${widget.task.iconName}.png'),
-            title: Text(widget.task.title,
+            title: Text(widget.task.title ?? '',
                 style: context.general.textTheme.titleMedium),
             subtitle: Text('${widget.task.date} - ${widget.task.time}',
                 style: context.general.textTheme.labelMedium),

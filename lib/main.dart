@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app_flutter/service/notification_manager.dart';
 import 'package:to_do_app_flutter/service/shared_manager.dart';
@@ -10,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedManager.init();
   await NotificationHelper.initialize();
+  MobileAds.instance.initialize();
   tz.initializeTimeZones();
   runApp(MultiProvider(
     providers: [

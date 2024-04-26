@@ -30,9 +30,9 @@ class _TaskDetailState extends State<TaskDetail> {
   }
 
   void getTaskInfo() {
-    noteController.text = widget.task.note;
-    dateController.text = widget.task.date;
-    timeController.text = widget.task.time;
+    noteController.text = widget.task.note ?? '';
+    dateController.text = widget.task.date ?? '';
+    timeController.text = widget.task.time ?? '';
   }
 
   void dateTimeToString() {
@@ -78,7 +78,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          widget.task.title,
+                          widget.task.title ?? '',
                           style:
                               context.general.textTheme.titleMedium!.copyWith(
                             fontSize: 20,
@@ -184,13 +184,17 @@ class _TaskDetailState extends State<TaskDetail> {
                           id: MyService().idCreator(),
                         );
                         // cancel current alarm
-                        NotificationHelper.unScheduleNotification(
-                            widget.task.id);
+                        if (widget.task.id != null) {
+                          NotificationHelper.unScheduleNotification(
+                              widget.task.id!);
+                        }
                         // new alarm
-                        NotificationHelper.scheduleNotification(
-                            id: updatedTask.id,
-                            scheduledDateTime: MyService().stringToDateTime(
-                                dateController.text, timeController.text));
+                        if (updatedTask.time != "" && updatedTask.date != "") {
+                          NotificationHelper.scheduleNotification(
+                              id: updatedTask.id!,
+                              scheduledDateTime: MyService().stringToDateTime(
+                                  dateController.text, timeController.text));
+                        }
                         //update task
                         context
                             .read<MyService>()

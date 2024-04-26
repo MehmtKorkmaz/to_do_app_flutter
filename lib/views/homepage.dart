@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app_flutter/service/notification_manager.dart';
+import 'package:to_do_app_flutter/service/google_ads.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/views/add_task_view.dart';
 import 'package:to_do_app_flutter/service/service.dart';
+import 'package:to_do_app_flutter/views/all_task_view.dart';
+import 'package:to_do_app_flutter/views/today_task_view.dart';
 import 'package:to_do_app_flutter/widgets/my_button.dart';
-import 'package:to_do_app_flutter/widgets/task_card.dart';
-import 'package:to_do_app_flutter/widgets/task_detail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +20,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    GoogleAds().loadInterstitialAd();
     context.read<MyService>().initList();
+    context.read<MyService>().initTodayList();
     super.initState();
   }
 
@@ -54,50 +55,38 @@ class _HomePageState extends State<HomePage> {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * .2,
+                width: MediaQuery.of(context).size.width,
               ),
-              Padding(
-                padding: context.padding.low,
-                child: Container(
-                    height: MediaQuery.of(context).size.height * .55,
-                    decoration: BoxDecoration(
-                        color: ColorConstants().white,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Consumer<MyService>(
-                      builder: (context, MyService, _) => ListView.builder(
-                          controller: ScrollController(),
-                          itemCount: MyService.taskList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: context.padding.horizontalLow,
-                              child: Slidable(
-                                endActionPane: ActionPane(
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: (_) {
-                                          // deleteTaskFromList(index);
-
-                                          NotificationHelper
-                                              .unScheduleNotification(
-                                                  MyService.taskList[index].id);
-                                          MyService.deleteTask(index);
-                                        },
-                                        backgroundColor:
-                                            ColorConstants().bloodBurst,
-                                        icon: Icons.delete,
-                                        label: 'Delete',
-                                      ),
-                                    ]),
-                                child: TaskCard(
-                                  task: MyService.taskList[index],
-                                  taskDetail: TaskDetail(
-                                      task: MyService.taskList[index],
-                                      index: index),
-                                ),
-                              ),
-                            );
-                          }),
-                    )),
+              DefaultTabController(
+                length: 2,
+                child: Padding(
+                  padding: context.padding.horizontalLow,
+                  child: Container(
+                      height: MediaQuery.of(context).size.height * .62,
+                      decoration: BoxDecoration(
+                          color: ColorConstants().white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: const Column(
+                        children: [
+                          TabBar(tabs: [
+                            Tab(
+                              text: 'Today',
+                              icon: Icon(Icons.today),
+                            ),
+                            Tab(
+                              text: 'All',
+                              icon: Icon(Icons.calendar_month),
+                            ),
+                          ]),
+                          Expanded(
+                            child: TabBarView(children: [
+                              TodayTasksView(),
+                              AllTaskView(),
+                            ]),
+                          )
+                        ],
+                      )),
+                ),
               ),
               MyButton(
                 title: 'ADD NEW TASK',

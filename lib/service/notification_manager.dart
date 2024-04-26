@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -59,15 +60,17 @@ class NotificationHelper {
     String? payload,
     required DateTime scheduledDateTime,
   }) async {
-    return _notifications.zonedSchedule(
-        id,
-        title,
-        body,
-        tz.TZDateTime.from(scheduledDateTime, tz.local),
-        await _notificationDetails(),
-        androidScheduleMode: AndroidScheduleMode.alarmClock,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+    if (scheduledDateTime.isAfter(DateTime.now())) {
+      return _notifications.zonedSchedule(
+          id,
+          title,
+          body,
+          tz.TZDateTime.from(scheduledDateTime, tz.local),
+          await _notificationDetails(),
+          androidScheduleMode: AndroidScheduleMode.alarmClock,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime);
+    }
   }
 
   static Future unScheduleNotification(int notificationId) async =>

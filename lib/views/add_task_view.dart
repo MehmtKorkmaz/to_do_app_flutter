@@ -177,6 +177,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                         if (iconController.text.isEmpty) {
                           iconController.text = IconEnum.ic_event.name;
                         }
+
                         TaskModel task = TaskModel(
                             iconName: iconController.text,
                             title: titleController.text,
@@ -184,18 +185,19 @@ class _AddTaskViewState extends State<AddTaskView> {
                             date: dateController.text,
                             note: noteController.text,
                             id: context.read<MyService>().idCreator());
-                        context.read<MyService>().addNewTask(task);
 
-                        NotificationHelper.scheduleNotification(
-                            id: task.id,
-                            title: titleController.text,
-                            body: '',
-                            payload: '',
-                            scheduledDateTime: context
-                                .read<MyService>()
-                                .stringToDateTime(
-                                    dateController.text, timeController.text));
-                        Navigator.pop(context);
+                        if (task.title != "") {
+                          NotificationHelper.scheduleNotification(
+                              id: task.id!,
+                              title: task.title,
+                              body: task.note,
+                              scheduledDateTime: context
+                                  .read<MyService>()
+                                  .stringToDateTime(dateController.text,
+                                      timeController.text));
+                          context.read<MyService>().addNewTask(task);
+                          Navigator.pop(context);
+                        }
                       }))
             ],
           ),
