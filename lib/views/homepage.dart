@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app_flutter/service/google_ads.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/views/add_task_view.dart';
 import 'package:to_do_app_flutter/service/service.dart';

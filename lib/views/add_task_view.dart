@@ -6,7 +6,6 @@ import 'package:to_do_app_flutter/service/notification_manager.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/service/service.dart';
 import 'package:to_do_app_flutter/utils/icon_enum.dart';
-import 'package:to_do_app_flutter/widgets/custom_radio.dart';
 import 'package:to_do_app_flutter/widgets/my_button.dart';
 
 class AddTaskView extends StatefulWidget {
