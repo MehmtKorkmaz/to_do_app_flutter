@@ -6,6 +6,7 @@ import 'package:to_do_app_flutter/service/notification_manager.dart';
 import 'package:to_do_app_flutter/utils/colors_constants.dart';
 import 'package:to_do_app_flutter/service/service.dart';
 import 'package:to_do_app_flutter/utils/icon_enum.dart';
+import 'package:to_do_app_flutter/widgets/custom_radio.dart';
 import 'package:to_do_app_flutter/widgets/my_button.dart';
 
 class AddTaskView extends StatefulWidget {
@@ -36,6 +37,11 @@ class _AddTaskViewState extends State<AddTaskView> {
 
   int _selectedIndex = 0;
 
+  void selectRadio(int index, IconEnum iconName) {
+    _selectedIndex == index;
+    iconController.text = iconName.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +49,7 @@ class _AddTaskViewState extends State<AddTaskView> {
       appBar: AppBar(
         backgroundColor: ColorConstants().purpleHaze,
         title: Text(
-          'Add New Task',
+          'New Task',
           style: context.general.textTheme.headlineMedium,
         ),
       ),
@@ -53,6 +59,7 @@ class _AddTaskViewState extends State<AddTaskView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //Task title textfield
               Text(
                 'Task title',
                 style: context.general.textTheme.titleLarge,
@@ -68,6 +75,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                       )),
                 ),
               ),
+              //Category RadioButtons
               Center(
                 child: Text(
                   'Category',
@@ -78,7 +86,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                 padding: context.padding.horizontalLow +
                     context.padding.verticalNormal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     customRadio(IconEnum.ic_event, 0),
                     customRadio(IconEnum.ic_goal, 1),
@@ -86,6 +94,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                   ],
                 ),
               ),
+              //DatePicker
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -118,6 +127,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                   )
                 ],
               ),
+              //TimePicker
               Padding(
                 padding: context.padding.onlyTopNormal,
                 child: Row(
@@ -153,6 +163,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                   ],
                 ),
               ),
+              //Notes Textfield
               Padding(
                 padding: context.padding.horizontalLow +
                     context.padding.verticalNormal,
@@ -170,6 +181,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                 minLines: 3,
                 maxLines: 10,
               ),
+              //Add new task button
               Center(
                   child: MyButton(
                       title: 'Add',

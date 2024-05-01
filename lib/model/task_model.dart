@@ -6,13 +6,14 @@ class TaskModel {
   final String? iconName;
   final int? id;
 
-  TaskModel(
-      {required this.iconName,
-      this.title,
-      this.time,
-      this.date,
-      this.note,
-      this.id});
+  TaskModel({
+    this.iconName,
+    this.title,
+    this.time,
+    this.date,
+    this.note,
+    this.id,
+  });
 
   static Map<String, dynamic> toJson(TaskModel task) {
     Map<String, dynamic> taskAsMap = {
